@@ -6,7 +6,8 @@
 <title>中间地带 · 视力体验</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Cpath d='M4 16c5-7 19-7 24 0-5 7-19 7-24 0z' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3Ccircle cx='16' cy='16' r='3.6' fill='%23F2B01E'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://miaoda.feishu.cn">
-<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;600&amp;family=Noto+Sans+SC:wght@300;400;500&amp;display=swap">
+<link rel="preconnect" href="https://sf3-scmcdn-cn.feishucdn.com" crossorigin>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=ZCOOL+KuaiLe&amp;display=swap">
 <style>
 @property --tunnelPx { syntax:'<length>'; inherits:true; initial-value:0px; }
 
@@ -19,8 +20,9 @@
   --muted:#71797F;
   --tactile:#F2B01E;
 
-  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",serif;
-  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  --kuaile:"ZCOOL KuaiLe","PingFang SC","Microsoft YaHei",sans-serif;
+  --serif:"ZCOOL KuaiLe","PingFang SC","Microsoft YaHei",sans-serif;
+  --sans:"ZCOOL KuaiLe","PingFang SC","Microsoft YaHei",sans-serif;
 
   --pos:0%;
 
@@ -48,6 +50,7 @@ body{
 }
 img{display:block}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+[hidden]{display:none!important}
 
 /* ============ 全局颗粒 ============ */
 .grain{
@@ -202,9 +205,9 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   margin-bottom:clamp(10px,1.6vw,16px);
 }
 h1{
-  font-family:var(--serif);font-weight:600;
+  font-family:var(--serif);font-weight:400;
   font-size:clamp(30px,4.6vw,56px);
-  line-height:1.16;letter-spacing:.02em;
+  line-height:1.24;letter-spacing:.03em;
   text-wrap:balance;
 }
 .sub{
@@ -290,11 +293,11 @@ h1{
 .readout{position:absolute;left:6px;bottom:0;width:100%}
 .value{
   display:block;
-  font-family:var(--serif);font-weight:600;
+  font-family:var(--serif);font-weight:400;
   font-size:clamp(26px,3vw,34px);
-  line-height:1;
+  line-height:1.05;
   font-variant-numeric:tabular-nums;
-  letter-spacing:.01em;
+  letter-spacing:.02em;
 }
 .value.is-nil{font-size:clamp(22px,2.4vw,27px)}
 .level{
@@ -379,6 +382,365 @@ h1{
 .next{
   margin-top:clamp(22px,3vw,34px);
   font-size:12px;letter-spacing:.12em;color:var(--muted);
+}
+
+/* ================= 第三屏：走进他们的日常 ================= */
+.act-3{
+  position:relative;z-index:10;
+  background:var(--paper);color:var(--ink);
+  padding:clamp(20px,4vw,56px) clamp(20px,5vw,64px) clamp(40px,6vw,80px);
+  display:none;
+}
+.act-3.is-in{display:block}
+.ch-head{max-width:1340px;margin:0 auto;border-top:1px solid var(--rule);padding-top:clamp(18px,2.6vw,28px)}
+.ch-title{
+  font-size:clamp(28px,4.2vw,50px);
+  line-height:1.28;letter-spacing:.01em;text-wrap:balance;margin-top:6px;
+}
+.chapter{max-width:1340px;margin:clamp(36px,5.6vw,72px) auto 0;border-top:1px solid var(--rule);padding-top:clamp(20px,3vw,32px)}
+.ch-label{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+.ch-label span{font-size:12px;letter-spacing:.1em;color:var(--tactile)}
+.ch-label h3{font-size:clamp(20px,2.4vw,27px);font-weight:400;letter-spacing:.02em}
+.ch-lede{font-size:clamp(14px,1.5vw,17px);line-height:2;max-width:46ch;color:#33383D}
+.note{font-size:13px;line-height:1.9;color:var(--muted);max-width:62ch}
+
+.btn-line{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:18px;padding:12px 26px;min-height:46px;
+  border:1px solid var(--ink);border-radius:999px;
+  background:transparent;color:var(--ink);
+  font-size:14px;letter-spacing:.08em;
+  transition:background .2s ease,color .2s ease,transform .18s ease;
+}
+.btn-line:hover{background:var(--ink);color:#fff}
+.btn-line:active{transform:scale(.97)}
+.btn-line:focus-visible{outline:2px solid var(--tactile);outline-offset:4px}
+
+.btn-solid{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:18px;padding:13px 30px;min-height:48px;
+  border-radius:999px;background:var(--ink);color:#fff;
+  font-size:14px;letter-spacing:.08em;text-decoration:none;
+  transition:transform .18s ease,opacity .2s ease;
+}
+.btn-solid:hover{opacity:.86}
+.btn-solid:active{transform:scale(.97)}
+.btn-solid:focus-visible{outline:2px solid var(--tactile);outline-offset:4px}
+
+/* ---------- 3-1 盲道 ---------- */
+.cane-stage{
+  position:relative;margin-top:20px;
+  aspect-ratio:16/9;min-height:320px;
+  background:#0A0B0C;overflow:hidden;isolation:isolate;
+  touch-action:none;
+  border-radius:2px;
+}
+.floor{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 62% 46% at 50% 60%, rgba(255,239,208,.13), rgba(0,0,0,0) 72%),
+    linear-gradient(180deg,#050607 0%,#0C0E10 44%,#16191C 100%);
+}
+.paving{
+  position:absolute;left:50%;bottom:0;width:30%;height:76%;
+  transform:translateX(-50%);
+  clip-path:polygon(34% 0,66% 0,100% 100%,0 100%);
+  background:
+    repeating-linear-gradient(90deg,#F2B01E 0 9px,#C0870F 9px 14px);
+  box-shadow:0 0 40px rgba(242,176,30,.28);
+}
+.paving::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 40%,rgba(0,0,0,.15) 100%);
+}
+.vignette{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 58%, rgba(0,0,0,0) 26%, rgba(0,0,0,.72) 62%, #000 92%);
+}
+.cane-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.cane-line{stroke:#F4F1E9;stroke-width:3;stroke-linecap:round;opacity:.92}
+.cane-grab{
+  position:absolute;width:64px;height:64px;margin:-32px 0 0 -32px;
+  border-radius:50%;cursor:grab;
+  display:grid;place-items:center;
+  touch-action:none;z-index:6;
+}
+.cane-grab:active{cursor:grabbing}
+.cane-grab::before{
+  content:"";width:26px;height:26px;border-radius:50%;
+  background:#F4F1E9;box-shadow:0 0 0 6px rgba(244,241,233,.16), 0 6px 18px rgba(0,0,0,.5);
+  transition:transform .2s ease;
+}
+.cane-grab:focus-visible{outline:2px solid var(--tactile);outline-offset:2px}
+.cane-hint{
+  position:absolute;left:50%;bottom:16px;transform:translateX(-50%);
+  font-size:12px;letter-spacing:.08em;color:rgba(244,241,233,.72);
+  padding:7px 16px;border-radius:999px;background:rgba(0,0,0,.42);
+  border:1px solid rgba(244,241,233,.16);
+  white-space:nowrap;transition:opacity .4s ease;pointer-events:none;
+}
+.cane-hint.is-off{opacity:0}
+
+.glass{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);
+  width:min(90%,480px);
+  padding:clamp(16px,2.6vw,26px);
+  background:rgba(18,20,22,.58);
+  -webkit-backdrop-filter:blur(16px) saturate(1.2);
+  backdrop-filter:blur(16px) saturate(1.2);
+  border:1px solid rgba(244,241,233,.26);
+  color:#F5F3EE;
+  opacity:0;visibility:hidden;z-index:8;
+  transition:opacity .35s ease,transform .35s cubic-bezier(.22,1,.36,1);
+}
+.glass.is-on{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+.glass.is-shake{animation:shake .42s ease}
+@keyframes shake{
+  0%,100%{transform:translate(-50%,-50%) scale(1)}
+  20%{transform:translate(-52%,-50%) scale(1)}
+  50%{transform:translate(-48%,-50%) scale(1)}
+  80%{transform:translate(-51%,-50%) scale(1)}
+}
+.glass-q{font-size:clamp(15px,1.9vw,19px);line-height:1.7;letter-spacing:.02em}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.opts.is-four{grid-template-columns:repeat(2,1fr)}
+.opt{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  padding:14px 8px;min-height:82px;
+  border:1px solid rgba(244,241,233,.28);border-radius:2px;
+  background:rgba(255,255,255,.05);color:#F5F3EE;
+  font-size:14px;letter-spacing:.06em;cursor:pointer;
+  transition:background .18s ease,border-color .18s ease,transform .18s ease;
+}
+.opt:hover{background:rgba(255,255,255,.12);border-color:rgba(244,241,233,.6)}
+.opt:active{transform:scale(.97)}
+.opt.is-sel{border-color:var(--tactile);background:rgba(242,176,30,.16)}
+.opt.is-right{border-color:#8FD3A8;background:rgba(143,211,168,.18)}
+.opt.is-wrong{border-color:#E3806E;background:rgba(227,128,110,.16)}
+.opt svg{width:26px;height:26px;stroke:#F5F3EE;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.glass-tip{margin-top:12px;font-size:12px;letter-spacing:.06em;color:rgba(244,241,233,.6);min-height:1em}
+
+.feedback{
+  position:absolute;left:50%;top:44%;transform:translate(-50%,-50%) scale(.9);
+  z-index:9;opacity:0;transition:opacity .3s ease,transform .4s cubic-bezier(.22,1.4,.36,1);
+  display:flex;flex-direction:column;align-items:center;gap:10px;color:#fff;
+  pointer-events:none;text-align:center;
+}
+.feedback.is-on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.feedback svg{width:44px;height:44px;stroke:#8FD3A8;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.feedback.is-bad svg{stroke:#E3806E}
+.feedback span{font-size:15px;letter-spacing:.1em}
+
+.obstacles{position:absolute;inset:0;z-index:5}
+.obstacle{
+  position:absolute;cursor:pointer;touch-action:none;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  transition:transform .2s ease;
+}
+.obstacle:active{transform:scale(.97)}
+.obstacle svg{width:74px;height:56px}
+.obstacle.is-moved{cursor:grab}
+.obstacle.is-done{opacity:.45;cursor:default;pointer-events:none}
+.obstacle .ob-label{font-size:11px;letter-spacing:.06em;color:rgba(244,241,233,.75)}
+.obstacle::after{
+  content:"";position:absolute;inset:-8px;border:1px dashed rgba(244,241,233,.35);
+  opacity:0;transition:opacity .2s ease;
+}
+.cane-stage.is-clickable .obstacle::after{opacity:1}
+
+.zones{position:absolute;inset:0;pointer-events:none;z-index:4}
+.zone{
+  position:absolute;bottom:8%;width:24%;height:34%;
+  border:1px dashed rgba(143,211,168,.75);
+  background:rgba(143,211,168,.06);
+  color:rgba(244,241,233,.85);
+  font-size:12px;letter-spacing:.06em;
+  display:grid;place-items:center;
+  opacity:0;transition:opacity .3s ease;
+}
+.zone.is-on{opacity:1}
+.zone.is-hit{background:rgba(143,211,168,.18);border-style:solid}
+#zonePark{left:4%}
+#zoneOff{right:4%}
+
+.chart-pop{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);
+  width:min(92%,560px);padding:clamp(16px,2.4vw,24px);
+  background:#F7F6F2;color:var(--ink);z-index:10;
+  opacity:0;visibility:hidden;transition:opacity .35s ease,transform .35s cubic-bezier(.22,1,.36,1);
+}
+.chart-pop.is-on{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+.chart-pop h4{font-size:clamp(15px,1.8vw,18px);font-weight:400;line-height:1.7;letter-spacing:.01em}
+.big-num{display:flex;align-items:baseline;gap:10px;margin:14px 0 4px}
+.big-num b{font-size:clamp(38px,6vw,58px);font-weight:400;line-height:1;letter-spacing:.01em}
+.big-num span{font-size:13px;color:var(--muted)}
+.split-bar{display:flex;height:14px;margin-top:14px;border:1px solid rgba(14,16,18,.35)}
+.split-bar i{display:block;height:100%}
+.split-bar i.a{width:36.4%;background:var(--tactile)}
+.split-bar i.b{width:63.6%;background:#E7E4DC}
+.legend{display:flex;gap:18px;margin-top:8px;font-size:11px;color:var(--muted)}
+.legend i{display:inline-block;width:9px;height:9px;margin-right:5px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.chips span{font-size:11px;padding:5px 10px;border:1px solid rgba(14,16,18,.22);letter-spacing:.04em}
+.src{margin-top:14px;font-size:11px;line-height:1.7;color:var(--muted)}
+
+/* ---------- 3-2 盲文 ---------- */
+.braille-intro{display:flex;gap:clamp(18px,3vw,40px);align-items:center;margin-top:20px;flex-wrap:wrap}
+.cell-demo{display:grid;grid-template-columns:auto auto;grid-template-rows:repeat(3,auto);gap:9px}
+.cell-demo .d{
+  width:20px;height:20px;border-radius:50%;
+  border:1px solid #C9C5BA;background:#EDEAE3;
+  display:grid;place-items:center;font-size:9px;color:#8A8478;
+}
+.braille-intro p{font-size:clamp(14px,1.5vw,16px);line-height:2;max-width:34ch}
+.braille-intro p b{font-weight:400;border-bottom:1px solid var(--tactile)}
+
+.cells{display:flex;gap:clamp(14px,2.4vw,26px);flex-wrap:wrap}
+.cell{
+  display:grid;grid-template-columns:auto auto;grid-template-rows:repeat(3,auto);
+  gap:8px;padding:12px;border:1px solid var(--rule);background:#FBFAF7;
+}
+.cell .dt{
+  width:19px;height:19px;border-radius:50%;
+  border:1px solid #C9C5BA;background:#EDEAE3;
+  cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .18s ease;
+}
+.cell .dt:hover{border-color:var(--ink)}
+.cell .dt.on{background:var(--ink);border-color:var(--ink)}
+.cell .dt.bad{animation:dotBad .3s ease}
+@keyframes dotBad{50%{transform:scale(.82);border-color:#E3806E}}
+.cell.is-locked .dt{cursor:default}
+.cell-label{font-size:11px;color:var(--muted);text-align:center;margin-top:6px;letter-spacing:.04em}
+
+.practice{margin-top:22px}
+.practice-row{display:flex;gap:clamp(14px,2.4vw,26px);flex-wrap:wrap}
+.practice-tip{font-size:12px;color:var(--muted);margin-top:12px;letter-spacing:.04em}
+.hello-bubble{
+  margin-top:20px;padding:16px 22px;border-left:3px solid var(--tactile);
+  font-size:clamp(16px,2vw,22px);letter-spacing:.06em;
+  opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease;
+}
+.hello-bubble.is-on{opacity:1;transform:translateY(0)}
+
+.metro{
+  position:relative;margin-top:clamp(34px,4.6vw,56px);
+  aspect-ratio:16/8;min-height:280px;background:#0B0C0D;overflow:hidden;isolation:isolate;
+}
+.metro-wall{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 40%, rgba(210,220,235,.10), rgba(0,0,0,0) 70%),
+    linear-gradient(180deg,#101214,#08090A);
+}
+.metro-sign{
+  position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);
+  width:min(70%,420px);padding:16px 18px;
+  background:#E9E6DF;color:#14161A;
+  display:flex;gap:16px;align-items:center;justify-content:space-between;
+}
+.metro-sign .cells{flex-wrap:nowrap;gap:10px}
+.metro-sign .cell{background:transparent;border-color:#B9B3A6;padding:6px}
+.metro-sign .cell .dt{background:#D6D1C6;border-color:#B9B3A6}
+.metro-sign .cell .dt.on{background:#14161A;border-color:#14161A}
+.sign-label{font-size:12px;letter-spacing:.06em;color:#5B5A56}
+.metro-hand{
+  position:absolute;width:96px;height:96px;cursor:grab;touch-action:none;z-index:6;
+  left:26%;top:58%;filter:drop-shadow(0 8px 20px rgba(0,0,0,.55));
+}
+.metro-hand:active{cursor:grabbing}
+.metro-hand svg{width:100%;height:100%}
+.metro-hand .hint{position:absolute;left:50%;top:-26px;transform:translateX(-50%);font-size:11px;color:rgba(244,241,233,.6);white-space:nowrap}
+.caption-box{
+  position:absolute;right:4%;top:5%;width:min(44%,240px);padding:12px 14px;
+  background:rgba(10,11,12,.72);border:1px solid rgba(244,241,233,.24);
+  color:#E9E6DF;font-size:12px;line-height:1.7;letter-spacing:.02em;
+  opacity:0;transition:opacity .4s ease;
+}
+.caption-box.is-on{opacity:1}
+.garble{display:block;margin-top:6px;font-size:13px;letter-spacing:.08em;color:#F2B01E;word-break:break-all}
+
+/* ---------- 3-3 导盲犬 ---------- */
+.dog-scenes{display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(14px,2.4vw,24px);margin-top:20px}
+.scene-box{position:relative;aspect-ratio:4/3;background:#0A0B0C;overflow:hidden;isolation:isolate}
+.mall{position:absolute;inset:0;background:linear-gradient(180deg,#0C0E10,#1A1E22 62%,#22272C)}
+.mall-door{
+  position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  width:46%;height:58%;background:linear-gradient(180deg,rgba(255,246,224,.16),rgba(255,246,224,.04));
+  border-left:1px solid rgba(255,246,224,.22);border-right:1px solid rgba(255,246,224,.22);
+}
+.no-dog{
+  position:absolute;right:7%;top:12%;width:74px;height:74px;border-radius:50%;
+  border:3px solid #E3806E;display:grid;place-items:center;color:#E3806E;
+}
+.no-dog svg{width:40px;height:40px;stroke:#E3806E;fill:none;stroke-width:1.5}
+.no-dog::after{content:"";position:absolute;width:96px;height:3px;background:#E3806E;transform:rotate(-45deg)}
+.dog-figure{position:absolute;left:24%;bottom:6%;width:150px;height:130px}
+.guard-figure{position:absolute;right:14%;bottom:4%;width:96px;height:150px}
+.phone-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.phone{
+  width:min(58%,210px);aspect-ratio:9/17;background:#F7F6F2;
+  border:6px solid #22262A;border-radius:26px;overflow:hidden;
+  display:flex;flex-direction:column;
+  box-shadow:0 22px 50px rgba(0,0,0,.5);
+}
+.phone-top{padding:14px 14px 6px;font-size:11px;color:#8C8779;letter-spacing:.06em}
+.phone-body{flex:1;display:grid;place-items:center;padding:10px}
+.phone-body strong{font-size:clamp(20px,3vw,26px);font-weight:400;color:#E3806E;letter-spacing:.1em}
+.phone-btn{margin:10px;padding:9px;text-align:center;font-size:11px;color:#fff;background:#B9B3A6;border-radius:8px;letter-spacing:.08em}
+.dog-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,2vw,18px);margin-top:20px}
+.stat{border-top:2px solid var(--ink);padding-top:12px}
+.stat b{display:block;font-size:clamp(22px,3vw,30px);font-weight:400;line-height:1.1}
+.stat span{display:block;margin-top:6px;font-size:12px;line-height:1.7;color:var(--muted)}
+.gap-card{
+  margin-top:clamp(20px,3vw,32px);padding:clamp(16px,2.6vw,26px);
+  background:#F5F3EE;border:1px solid var(--rule);
+}
+.gap-card h4{font-size:clamp(15px,1.8vw,18px);font-weight:400;line-height:1.7}
+.gap-row{display:flex;align-items:flex-end;gap:clamp(18px,3vw,40px);margin-top:16px;flex-wrap:wrap}
+.gap-num b{font-size:clamp(30px,4.4vw,44px);font-weight:400;line-height:1}
+.gap-num span{display:block;margin-top:6px;font-size:12px;color:var(--muted)}
+.gap-ratio{margin-left:auto;text-align:right;font-size:12px;line-height:1.9;color:var(--muted)}
+.gap-ratio b{display:block;font-size:clamp(18px,2.4vw,24px);color:var(--ink);font-weight:400}
+.ratio-dots{display:grid;grid-template-columns:repeat(24,1fr);gap:4px;margin-top:16px}
+.ratio-dots i{display:block;aspect-ratio:1;border-radius:50%;background:#D9D5CB}
+.ratio-dots i.dog{background:var(--tactile)}
+
+/* ---------- 收尾 ---------- */
+.end-card{
+  max-width:1340px;margin:clamp(56px,8vw,96px) auto 0;
+  border-top:1px solid var(--rule);padding-top:clamp(24px,3.4vw,36px);
+}
+.end-card p{font-size:clamp(16px,2vw,22px);line-height:2;max-width:36ch}
+.end-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+
+/* ---------- 第三屏：窄屏 ---------- */
+@media (max-width:640px){
+  .cane-stage{aspect-ratio:4/5;min-height:420px}
+  .paving{width:44%}
+  .glass{width:min(94%,420px);padding:16px}
+  .opts{gap:8px}
+  .opt{padding:10px 4px;min-height:74px;font-size:12px}
+  .opt svg{width:22px;height:22px}
+  .obstacle svg{width:58px;height:44px}
+  .zone{width:40%;height:26%;font-size:11px}
+  .chart-pop{width:94%;padding:16px}
+  .chips span{font-size:10px}
+  .dog-scenes{grid-template-columns:1fr}
+  .scene-box{aspect-ratio:1/1}
+  .phone{width:min(44%,160px)}
+  .dog-stats{grid-template-columns:1fr 1fr;gap:14px}
+  .gap-row{flex-direction:column;align-items:flex-start;gap:14px}
+  .gap-ratio{margin-left:0;text-align:left}
+  .metro{aspect-ratio:4/5;min-height:360px}
+  .metro-sign{width:82%;flex-direction:column;align-items:flex-start;gap:10px}
+  .metro-sign .cells{gap:8px}
+  .metro-sign .cell .dt{width:14px;height:14px}
+  .caption-box{width:64%;right:6%;top:6%}
+  .metro-hand{width:78px;height:78px}
+  .cell .dt{width:17px;height:17px}
+  .cell-demo .d{width:18px;height:18px}
+  .ch-lede{max-width:none}
+  .braille-intro{gap:16px}
 }
 
 /* ============ 窄屏 ============ */
@@ -481,6 +843,218 @@ h1{
   <div class="closing">
     <p>1731万人里，大多数不是“全盲”，他们活在“还能看见一点，但不够用的”中间地带。</p>
     <p class="next">下一章　走进他们的日常：盲道 · 盲文 · 导盲犬</p>
+    <a class="btn-line" href="#act3">接着看：走进他们的日常</a>
+  </div>
+</section>
+
+<!-- ================= 第三屏 ================= -->
+<section class="act-3" id="act3" aria-label="走进他们的日常">
+  <header class="ch-head">
+    <p class="kicker">第三章　走进他们的日常</p>
+    <h2 class="ch-title">一条盲道，一方盲文，<br>一只导盲犬</h2>
+    <p class="sub">刚才你还能拖动自己的视力。现在，换你被一条路困住。</p>
+  </header>
+
+  <!-- ---------- 3-1 盲道 ---------- -->
+  <article class="chapter">
+    <div class="ch-label"><span>3-1</span><h3>盲道</h3></div>
+    <p class="ch-lede">你站在人行道上，手里握着一根盲杖。脚下那条黄色的路，是这座城市留给你的唯一线索。</p>
+
+    <div class="cane-stage" id="caneStage">
+      <div class="floor" aria-hidden="true"></div>
+      <div class="paving" aria-hidden="true"></div>
+      <div class="vignette" aria-hidden="true"></div>
+      <svg class="cane-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <line id="caneLine" class="cane-line" vector-effect="non-scaling-stroke" x1="76" y1="92" x2="56" y2="72"></line>
+      </svg>
+      <div class="cane-grab" id="caneGrab" role="slider" tabindex="0" aria-label="拖动盲杖向前探路"></div>
+      <div class="cane-hint" id="caneHint">按住圆点，把盲杖拖到盲道上</div>
+
+      <div class="glass" id="glass" aria-live="polite">
+        <p class="glass-q" id="glassQ">我该往哪走？</p>
+        <div class="opts" id="opts"></div>
+        <p class="glass-tip" id="glassTip"></p>
+      </div>
+
+      <div class="feedback" id="feedback" aria-live="polite">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6"/></svg>
+        <span id="fbText"></span>
+      </div>
+
+      <div class="obstacles" id="obstacles" hidden>
+        <div class="obstacle" data-kind="scooter" style="left:47%;top:38%">
+          <svg viewBox="0 0 74 56" aria-hidden="true">
+            <circle cx="18" cy="43" r="9"/><circle cx="56" cy="43" r="9"/>
+            <path d="M18 43 L30 24 L54 24 M54 24 L56 43 M30 24 L38 16 L50 16"/>
+            <path d="M44 24 L44 12 L52 10"/>
+          </svg>
+          <span class="ob-label">电动车</span>
+        </div>
+        <div class="obstacle" data-kind="stone" style="left:52%;top:58%">
+          <svg viewBox="0 0 74 56" aria-hidden="true">
+            <path d="M14 46 L18 24 L34 14 L54 20 L60 46 Z"/>
+            <path d="M18 24 L34 30 L54 20"/>
+          </svg>
+          <span class="ob-label">石墩</span>
+        </div>
+        <div class="obstacle" data-kind="bike" style="left:38%;top:52%">
+          <svg viewBox="0 0 74 56" aria-hidden="true">
+            <circle cx="17" cy="40" r="9"/><circle cx="57" cy="40" r="9"/>
+            <path d="M17 40 L33 40 L41 22 L57 40 M33 40 L26 22 L41 22 M20 22 L27 22"/>
+          </svg>
+          <span class="ob-label">共享单车</span>
+        </div>
+      </div>
+
+      <div class="zones" id="zones" hidden>
+        <div class="zone" id="zonePark">停进车位</div>
+        <div class="zone" id="zoneOff">搬到盲道外</div>
+      </div>
+
+      <div class="chart-pop" id="chartPop" aria-live="polite">
+        <h4>在被记录的 340 段盲道里，122 段有东西挡着路</h4>
+        <div class="big-num"><b>36.4</b><span>%　存在物理占用</span></div>
+        <div class="split-bar" aria-hidden="true"><i class="a"></i><i class="b"></i></div>
+        <div class="legend"><span><i style="background:#F2B01E"></i>有物理占用 122 段</span><span><i style="background:#E7E4DC"></i>未见占用 218 段</span></div>
+        <div class="chips">
+          <span>非机动车 63 段</span><span>临时堆放 52 段</span><span>机动车 37 段</span>
+          <span>井盖 30 段</span><span>摊贩 18 段</span><span>电动车 15 段</span>
+        </div>
+        <p class="src">数据来源：澎湃新闻·湃客《盲道失灵：一条“看不见”的城市之路》，2026 年 5 月。同一段盲道可能同时存在多种占用，故分类记录数之和大于 122 段。</p>
+      </div>
+    </div>
+
+    <div class="stage-foot">
+      <p class="note" id="ch1Note">盲杖没能替你解决问题：城市里的路，是被占住的。</p>
+      <button class="btn-line" id="helpBtn1" hidden>帮助他们</button>
+    </div>
+  </article>
+
+  <!-- ---------- 3-2 盲文 ---------- -->
+  <article class="chapter">
+    <div class="ch-label"><span>3-2</span><h3>盲文</h3></div>
+    <h2 class="ch-title" style="font-size:clamp(24px,3.2vw,38px);margin-top:6px">你知道盲文是怎么构成的吗？</h2>
+
+    <div class="braille-intro">
+      <div class="cell-demo" id="cellDemo" aria-hidden="true">
+        <div class="d">1</div><div class="d">4</div>
+        <div class="d">2</div><div class="d">5</div>
+        <div class="d">3</div><div class="d">6</div>
+      </div>
+      <p>盲文的基本单位叫做“<b>方</b>”：两列三点，六个点位。点亮其中任意几个，就能拼出 <b>64</b> 种组合。</p>
+    </div>
+
+    <p class="ch-lede">盲文的书写和阅读方向很有趣，可以概括为“反写正读”——写的时候从右往左，读的时候从左往右。下面这四个方，读作“你好”。</p>
+
+    <div class="cells" id="helloRow" aria-label="“你好”的盲文写法"></div>
+
+    <button class="btn-solid" id="tryBtn">你来试试吧</button>
+
+    <div class="practice" id="practice" hidden>
+      <p class="practice-tip">按上面“你好”的四个方，把该点的位置点黑。点错的点位不会被覆盖。</p>
+      <div class="practice-row" id="practiceRow"></div>
+      <div class="hello-bubble" id="helloBubble">你好！</div>
+    </div>
+
+    <div class="metro" id="metro">
+      <div class="metro-wall" aria-hidden="true"></div>
+      <div class="metro-sign">
+        <div class="cells" id="metroCells" aria-label="地铁站盲文导向标识"></div>
+        <div class="sign-label">地铁站<br>导向标识</div>
+      </div>
+      <div class="metro-hand" id="metroHand" role="button" tabindex="0" aria-label="拖动这只手去摸标识">
+        <span class="hint">拖动我去摸标识</span>
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M30 74 L30 46 M42 46 L42 34 M54 40 L54 36 M66 46 L66 40" stroke="#F4F1E9" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <path d="M24 74 Q24 86 36 86 L70 86 Q78 86 78 76 L78 66" stroke="#F4F1E9" stroke-width="5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="caption-box" id="captionBox">
+        你摸到的标识写着：
+        <span class="garble" id="garble">Ñ½ ¾Â ÊÇ ÒÝ ·Ê ÇÐ ¿É</span>
+      </div>
+    </div>
+
+    <p class="note" style="margin-top:18px">常常出现这样的情况：公共服务领域的盲文标识不规范，甚至缺失。摸上去是一串没有意义的凸点。</p>
+    <button class="btn-line" id="helpBtn2">帮助他们</button>
+
+    <div id="fixWrap" hidden>
+      <p class="practice-tip">这是那块标识。点正确点位，覆盖成黑色；点到错误的旧点位，会被擦掉。</p>
+      <div class="cells" id="fixRow"></div>
+      <div class="hello-bubble" id="fixDone">改对了。这块标识终于读得出来——“你好”。</div>
+    </div>
+  </article>
+
+  <!-- ---------- 3-3 导盲犬 ---------- -->
+  <article class="chapter">
+    <div class="ch-label"><span>3-3</span><h3>导盲犬</h3></div>
+    <p class="ch-lede">你牵着导盲犬走到商场门口，保安伸手把你拦下，指了指标识牌。</p>
+
+    <div class="dog-scenes">
+      <div class="scene-box" aria-hidden="true">
+        <div class="mall"></div>
+        <div class="mall-door"></div>
+        <div class="no-dog">
+          <svg viewBox="0 0 40 40"><path d="M12 24 L12 18 L16 14 L24 14 L28 18 L28 24 M12 24 L12 30 M28 24 L28 30 M16 14 L16 10 L24 10 L24 14 M20 14 L20 10"/></svg>
+        </div>
+        <div class="dog-figure">
+          <svg viewBox="0 0 150 130">
+            <path d="M36 118 L36 78 Q36 66 50 66 L74 66 Q86 66 86 78 L86 118" stroke="#E9E6DF" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <circle cx="60" cy="46" r="15" stroke="#E9E6DF" stroke-width="3" fill="none"/>
+            <path d="M74 60 L100 84" stroke="#E9E6DF" stroke-width="3" stroke-linecap="round"/>
+            <path d="M100 84 L104 118" stroke="#E9E6DF" stroke-width="2.4" stroke-dasharray="6 7" stroke-linecap="round"/>
+            <path d="M104 100 Q124 92 130 74" stroke="#F2B01E" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+            <circle cx="132" cy="70" r="6" fill="#F2B01E"/>
+          </svg>
+        </div>
+        <div class="guard-figure">
+          <svg viewBox="0 0 96 150">
+            <circle cx="48" cy="26" r="13" stroke="#8A9298" stroke-width="3" fill="none"/>
+            <path d="M48 39 L48 92 M48 60 L26 74 M48 60 L72 56 M48 92 L34 136 M48 92 L64 136" stroke="#8A9298" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M72 56 L88 44" stroke="#8A9298" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="scene-box phone-wrap" aria-hidden="true">
+        <div class="phone">
+          <div class="phone-top">导盲犬服务申请</div>
+          <div class="phone-body"><strong>无法申请</strong></div>
+          <div class="phone-btn">名额已满，请等待下一批次</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="ch-lede" style="margin-top:18px">很多公共场所，被人为禁止导盲犬进入。“禁止携带宠物”的牌子挂在门口，导盲犬和宠物被算进了同一类。</p>
+    <p class="note" style="margin-top:12px">《中华人民共和国无障碍环境建设法》自 2023 年 9 月 1 日起施行，明确盲人携带导盲犬出入公共场所受法律保护。现实里，拦下他们的是门口那个手势。</p>
+
+    <div class="gap-card">
+      <h4>不是不想，而是申请不到：全国视障人群与导盲犬的数量对比</h4>
+      <div class="gap-row">
+        <div class="gap-num"><b>1731 万</b><span>视力残疾人</span></div>
+        <div class="gap-num"><b>约 400 只</b><span>正在服役的导盲犬</span></div>
+        <div class="gap-ratio"><b>4.25 万 : 1</b>平均多少视障者，才对应一只导盲犬</div>
+      </div>
+      <div class="split-bar" style="margin-top:18px" aria-hidden="true">
+        <i style="width:100%;background:#E7E4DC"></i>
+      </div>
+      <div class="legend"><span><i style="background:#E7E4DC"></i>1731 万视障者</span><span><i style="background:#F2B01E"></i>导盲犬 400 只（同比例下不足 0.01%，故不可见）</span></div>
+      <p class="src">数据来源：中国盲人协会（视障人数 1731 万）、光明网 2025 年 4 月 30 日《4.25 万分之一的幸运》与中国新闻网 2024 年 4 月《探秘“汪汪岗前培训”》（服役导盲犬约 400 只）。</p>
+    </div>
+
+    <div class="dog-stats">
+      <div class="stat"><b>2 年</b><span>从幼犬到上岗，要训练两年</span></div>
+      <div class="stat"><b>&lt; 30%</b><span>能通过考核、真正上岗的比例不到三成</span></div>
+      <div class="stat"><b>20 万元</b><span>培养一只导盲犬的全部成本</span></div>
+    </div>
+    <p class="src">数据来源：中国新闻网《一只导盲犬这样“养成”》（2026 年 5 月），训练周期与淘汰比例由导盲犬培训基地提供。</p>
+  </article>
+
+  <div class="end-card">
+    <p>路铺好了，标识写对了，门也开了——这三件小事，决定了 1731 万人能不能自己走出家门。</p>
+    <div class="end-actions">
+      <a class="btn-solid" href="#act1">回到开头，再看一次</a>
+    </div>
+    <p class="src">全文数据来源：中国盲人协会、中国残疾人联合会、光明网、中国新闻网、澎湃新闻·湃客、人民日报（海外版）。统计口径以各来源发布时点为准。</p>
   </div>
 </section>
 
@@ -680,6 +1254,444 @@ h1{
   if (street.complete) drawMosaic();
 
   update(0);
+})();
+</script>
+
+<script>
+/* ================= 第三屏：盲道 / 盲文 / 导盲犬 ================= */
+(function(){
+  'use strict';
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 第三章在第一幕“睁眼”之后才出现 */
+  var act3 = document.getElementById('act3');
+  var enterBtn = document.getElementById('enterBtn');
+  if (enterBtn && act3){
+    enterBtn.addEventListener('click', function(){
+      setTimeout(function(){ act3.classList.add('is-in'); }, reduce ? 60 : 880);
+    });
+  }
+
+  function iconSVG(name){
+    var p = {
+      up:   '<path d="M12 20V5"/><path d="M5 12l7-7 7 7"/>',
+      stop: '<circle cx="12" cy="12" r="8.4"/><path d="M6.3 6.3l11.4 11.4"/>',
+      turn: '<path d="M5 19v-7a4 4 0 0 1 4-4h9"/><path d="M14 4l4 4-4 4"/>',
+      end:  '<path d="M6 3v18"/><path d="M6 5h11l-2.6 4L17 13H6z"/>'
+    };
+    return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (p[name] || '') + '</svg>';
+  }
+
+  /* ---------------- 3-1 盲道 ---------------- */
+  var stage = document.getElementById('caneStage');
+  if (stage){
+    var grab = document.getElementById('caneGrab');
+    var line = document.getElementById('caneLine');
+    var glass = document.getElementById('glass');
+    var glassQ = document.getElementById('glassQ');
+    var optsBox = document.getElementById('opts');
+    var glassTip = document.getElementById('glassTip');
+    var feedback = document.getElementById('feedback');
+    var fbText = document.getElementById('fbText');
+    var fbSvg = feedback.querySelector('svg');
+    var obstacles = document.getElementById('obstacles');
+    var zones = document.getElementById('zones');
+    var chartPop = document.getElementById('chartPop');
+    var helpBtn1 = document.getElementById('helpBtn1');
+    var caneHint = document.getElementById('caneHint');
+    var note1 = document.getElementById('ch1Note');
+
+    var step = 0;
+    var tip = {x:70, y:88};
+    var dragging = false;
+
+    function setTip(x, y){
+      tip.x = x; tip.y = y;
+      line.setAttribute('x2', x);
+      line.setAttribute('y2', y);
+      grab.style.left = x + '%';
+      grab.style.top = y + '%';
+    }
+    setTip(tip.x, tip.y);
+
+    function halfWidthAt(y){
+      var t = Math.max(0, Math.min(1, (y - 24) / 76));
+      return 15 - 10.1 * t;
+    }
+    function onPaving(){
+      return tip.y > 26 && tip.y < 97 && Math.abs(tip.x - 50) < halfWidthAt(tip.y);
+    }
+
+    function moveTo(x, y){
+      setTip(Math.max(4, Math.min(96, x)), Math.max(20, Math.min(96, y)));
+      if (step === 0 && onPaving()) reach();
+    }
+
+    function reach(){
+      step = 1;
+      dragging = false;
+      caneHint.classList.add('is-off');
+      showGlass(1);
+    }
+
+    grab.addEventListener('pointerdown', function(e){
+      if (step !== 0) return;
+      dragging = true;
+      try { grab.setPointerCapture(e.pointerId); } catch(err){}
+      e.preventDefault();
+    });
+    grab.addEventListener('pointermove', function(e){
+      if (!dragging) return;
+      var r = stage.getBoundingClientRect();
+      moveTo(((e.clientX - r.left) / r.width) * 100, ((e.clientY - r.top) / r.height) * 100);
+    });
+    grab.addEventListener('pointerup', function(){ dragging = false; });
+    grab.addEventListener('pointercancel', function(){ dragging = false; });
+    grab.addEventListener('keydown', function(e){
+      if (step !== 0) return;
+      var k = e.key;
+      if (k === 'ArrowUp'){ moveTo(tip.x, tip.y - 5); e.preventDefault(); }
+      else if (k === 'ArrowDown'){ moveTo(tip.x, tip.y + 5); e.preventDefault(); }
+      else if (k === 'ArrowLeft'){ moveTo(tip.x - 5, tip.y); e.preventDefault(); }
+      else if (k === 'ArrowRight'){ moveTo(tip.x + 5, tip.y); e.preventDefault(); }
+    });
+
+    var Q = {
+      1: {
+        text: '我该往哪走？',
+        need: 1,
+        opts: [
+          {label: '直行', icon: 'up', ok: true},
+          {label: '停止', icon: 'stop', ok: false},
+          {label: '拐弯', icon: 'turn', ok: false}
+        ]
+      },
+      2: {
+        text: '接下来，我该往哪走？',
+        need: 2,
+        opts: [
+          {label: '直行', icon: 'up', ok: false},
+          {label: '停止', icon: 'stop', ok: false},
+          {label: '拐弯', icon: 'turn', ok: true},
+          {label: '起点/终点', icon: 'end', ok: true}
+        ]
+      }
+    };
+
+    function showGlass(no){
+      var q = Q[no];
+      glassQ.textContent = q.text;
+      glassTip.textContent = q.need === 2 ? '选出两个答案，再确认' : '选一个答案';
+      optsBox.innerHTML = '';
+      optsBox.className = 'opts' + (q.opts.length === 4 ? ' is-four' : '');
+      q.opts.forEach(function(o, i){
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'opt';
+        b.setAttribute('data-i', i);
+        b.innerHTML = iconSVG(o.icon) + '<span>' + o.label + '</span>';
+        b.addEventListener('click', function(){ pick(no, i, b); });
+        optsBox.appendChild(b);
+      });
+      glass.classList.add('is-on');
+    }
+
+    function feedbackShow(ok, text){
+      fbText.textContent = text;
+      fbSvg.innerHTML = ok ? '<path d="M4 13l5 5L20 6"/>' : '<path d="M6 6l12 12"/><path d="M18 6L6 18"/>';
+      feedback.classList.toggle('is-bad', !ok);
+      feedback.classList.add('is-on');
+      clearTimeout(feedback._t);
+      feedback._t = setTimeout(function(){ feedback.classList.remove('is-on'); }, 1500);
+    }
+
+    function pick(no, i, btn){
+      var q = Q[no];
+      var o = q.opts[i];
+
+      if (q.need === 1){
+        if (o.ok){
+          btn.classList.add('is-right');
+          feedbackShow(true, '点赞，走对了');
+          glass.classList.remove('is-on');
+          setTimeout(function(){ step = 2; showGlass(2); }, 1000);
+        } else {
+          btn.classList.add('is-wrong');
+          feedbackShow(false, '再试一次');
+          glass.classList.add('is-shake');
+          setTimeout(function(){ glass.classList.remove('is-shake'); btn.classList.remove('is-wrong'); }, 520);
+        }
+        return;
+      }
+
+      btn.classList.toggle('is-sel');
+      var sel = Array.prototype.slice.call(optsBox.querySelectorAll('.opt.is-sel'));
+      if (sel.length < 2) return;
+      var oks = sel.filter(function(b){ return q.opts[+b.getAttribute('data-i')].ok; });
+      if (oks.length === 2){
+        sel.forEach(function(b){ b.classList.add('is-right'); });
+        feedbackShow(true, '点赞，走对了');
+        glass.classList.remove('is-on');
+        setTimeout(startObstacles, 1000);
+      } else {
+        feedbackShow(false, '再试一次');
+        sel.forEach(function(b){ b.classList.add('is-wrong'); });
+        glass.classList.add('is-shake');
+        setTimeout(function(){
+          glass.classList.remove('is-shake');
+          Array.prototype.forEach.call(optsBox.children, function(b){
+            b.classList.remove('is-sel', 'is-wrong');
+          });
+        }, 520);
+      }
+    }
+
+    function startObstacles(){
+      step = 3;
+      obstacles.hidden = false;
+      stage.classList.add('is-clickable');
+      note1.textContent = '盲道前面多了几样东西。点击看看，它们挡住了什么。';
+    }
+
+    var chartOpen = false;
+    Array.prototype.forEach.call(obstacles.querySelectorAll('.obstacle'), function(el){
+      el.addEventListener('click', function(){
+        if (step !== 3 || chartOpen) return;
+        chartOpen = true;
+        chartPop.classList.add('is-on');
+        helpBtn1.hidden = false;
+        note1.textContent = '被挡住的不是一条黄线，是一条能自己走回家的路。';
+      });
+    });
+
+    helpBtn1.addEventListener('click', function(){
+      chartPop.classList.remove('is-on');
+      chartOpen = false;
+      step = 4;
+      zones.hidden = false;
+      requestAnimationFrame(function(){ zones.classList.add('is-on'); });
+      stage.classList.remove('is-clickable');
+      helpBtn1.hidden = true;
+      note1.textContent = '把电动车推回车位，把石墩搬到盲道外。';
+    });
+
+    function overlaps(a, b){
+      var ra = a.getBoundingClientRect();
+      var rb = b.getBoundingClientRect();
+      var cx = ra.left + ra.width / 2;
+      var cy = ra.top + ra.height / 2;
+      return cx > rb.left && cx < rb.right && cy > rb.top && cy < rb.bottom;
+    }
+
+    var cleared = {};
+    var clearedCount = 0;
+
+    function bindDrag(el, zone, required){
+      el.addEventListener('pointerdown', function(e){
+        if (step !== 4) return;
+        if (el.classList.contains('is-done')) return;
+        var r = stage.getBoundingClientRect();
+        var er = el.getBoundingClientRect();
+        var ox = e.clientX - er.left;
+        var oy = e.clientY - er.top;
+        el.classList.add('is-moved');
+        try { el.setPointerCapture(e.pointerId); } catch(err){}
+
+        function onMove(ev){
+          el.style.left = (((ev.clientX - ox - r.left) / r.width) * 100) + '%';
+          el.style.top = (((ev.clientY - oy - r.top) / r.height) * 100) + '%';
+          zone.classList.toggle('is-hit', overlaps(el, zone));
+        }
+        function onUp(){
+          el.removeEventListener('pointermove', onMove);
+          el.removeEventListener('pointerup', onUp);
+          el.removeEventListener('pointercancel', onUp);
+          el.classList.remove('is-moved');
+          zone.classList.remove('is-hit');
+          if (overlaps(el, zone)){
+            el.classList.add('is-done');
+            if (required && !cleared[el.getAttribute('data-kind')]){
+              cleared[el.getAttribute('data-kind')] = true;
+              clearedCount += 1;
+            }
+            if (clearedCount >= 2) finishTidy();
+          }
+        }
+        el.addEventListener('pointermove', onMove);
+        el.addEventListener('pointerup', onUp);
+        el.addEventListener('pointercancel', onUp);
+      });
+    }
+
+    var scooter = obstacles.querySelector('[data-kind="scooter"]');
+    var stone = obstacles.querySelector('[data-kind="stone"]');
+    var bike = obstacles.querySelector('[data-kind="bike"]');
+    bindDrag(scooter, document.getElementById('zonePark'), true);
+    bindDrag(stone, document.getElementById('zoneOff'), true);
+    bindDrag(bike, document.getElementById('zoneOff'), false);
+
+    function finishTidy(){
+      step = 5;
+      note1.textContent = '这条路，终于能走了。';
+      feedbackShow(true, '路通了');
+      caneHint.classList.remove('is-off');
+      caneHint.textContent = '盲道空出来了';
+    }
+  }
+
+  /* ---------------- 3-2 盲文 ---------------- */
+  var DOT_ORDER = [1, 4, 2, 5, 3, 6];
+  var HELLO = [[1, 3, 4, 5], [2, 4], [1, 2, 5], [2, 3, 5]];
+  var WRONG = [[1, 2, 4, 5], [2, 6], [2, 5], [1, 3, 5]];
+
+  function buildCells(container, patterns, opts){
+    opts = opts || {};
+    container.innerHTML = '';
+    var doneCount = 0;
+    patterns.forEach(function(pat, idx){
+      var cell = document.createElement('div');
+      cell.className = 'cell';
+      var state = {};
+      var start = (opts.start && opts.start[idx]) || [];
+      var locked = false;
+
+      function check(){
+        if (!opts.interactive) return;
+        var all = true;
+        for (var n = 1; n <= 6; n++){
+          var should = pat.indexOf(n) > -1;
+          if (!!state[n] !== should){ all = false; break; }
+        }
+        if (!all) return;
+        cell.classList.add('is-locked');
+        if (!locked){
+          locked = true;
+          doneCount += 1;
+          if (doneCount === patterns.length && opts.onDone) opts.onDone();
+        }
+      }
+
+      DOT_ORDER.forEach(function(dot){
+        var d = document.createElement('div');
+        d.className = 'dt';
+        if (start.indexOf(dot) > -1){ state[dot] = true; d.classList.add('on'); }
+        if (opts.interactive){
+          d.addEventListener('click', function(){
+            var isTarget = pat.indexOf(dot) > -1;
+            if (isTarget && !state[dot]){
+              state[dot] = true;
+              d.classList.add('on');
+            } else if (!isTarget && state[dot] && opts.clearable){
+              state[dot] = false;
+              d.classList.remove('on');
+            } else if (isTarget && state[dot]){
+              /* 已经点对了，不做反应 */
+            } else {
+              d.classList.add('bad');
+              setTimeout(function(){ d.classList.remove('bad'); }, 340);
+            }
+            check();
+          });
+        }
+        cell.appendChild(d);
+      });
+      container.appendChild(cell);
+    });
+  }
+
+  var helloRow = document.getElementById('helloRow');
+  if (helloRow){
+    HELLO.forEach(function(pat, i){
+      var box = document.createElement('div');
+      buildCells(box, [pat], {});
+      var lab = document.createElement('div');
+      lab.className = 'cell-label';
+      lab.textContent = i < 2 ? '你' : '好';
+      box.appendChild(lab);
+      helloRow.appendChild(box);
+    });
+  }
+
+  var metroCells = document.getElementById('metroCells');
+  if (metroCells) buildCells(metroCells, WRONG, {});
+
+  var tryBtn = document.getElementById('tryBtn');
+  var practice = document.getElementById('practice');
+  var practiceRow = document.getElementById('practiceRow');
+  var helloBubble = document.getElementById('helloBubble');
+
+  if (tryBtn && practice && practiceRow){
+    tryBtn.addEventListener('click', function(){
+      tryBtn.hidden = true;
+      practice.hidden = false;
+      buildCells(practiceRow, HELLO, {
+        interactive: true,
+        onDone: function(){ helloBubble.classList.add('is-on'); }
+      });
+      practice.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'center'});
+    });
+  }
+
+  var metroHand = document.getElementById('metroHand');
+  var captionBox = document.getElementById('captionBox');
+  if (metroHand && captionBox){
+    var metro = document.getElementById('metro');
+    var grabbed = false;
+    var grabOffset = {x: 48, y: 48};
+
+    function touchSign(){
+      if (captionBox.classList.contains('is-on')) return;
+      captionBox.classList.add('is-on');
+      metroHand.setAttribute('aria-label', '标识读不懂：凸点顺序是乱的');
+    }
+    function overlapsSign(){
+      var hr = metroHand.getBoundingClientRect();
+      var sr = document.querySelector('.metro-sign').getBoundingClientRect();
+      return !(hr.right < sr.left || hr.left > sr.right || hr.bottom < sr.top || hr.top > sr.bottom);
+    }
+    metroHand.addEventListener('pointerdown', function(e){
+      grabbed = true;
+      var hr = metroHand.getBoundingClientRect();
+      grabOffset.x = e.clientX - hr.left;
+      grabOffset.y = e.clientY - hr.top;
+      try { metroHand.setPointerCapture(e.pointerId); } catch(err){}
+      e.preventDefault();
+    });
+    metroHand.addEventListener('pointermove', function(e){
+      if (!grabbed) return;
+      var r = metro.getBoundingClientRect();
+      metroHand.style.left = (((e.clientX - grabOffset.x - r.left) / r.width) * 100) + '%';
+      metroHand.style.top = (((e.clientY - grabOffset.y - r.top) / r.height) * 100) + '%';
+    });
+    metroHand.addEventListener('pointerup', function(){
+      grabbed = false;
+      if (overlapsSign()) touchSign();
+    });
+    metroHand.addEventListener('pointercancel', function(){ grabbed = false; });
+    metroHand.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); touchSign(); }
+    });
+  }
+
+  var helpBtn2 = document.getElementById('helpBtn2');
+  var fixWrap = document.getElementById('fixWrap');
+  var fixRow = document.getElementById('fixRow');
+  var fixDone = document.getElementById('fixDone');
+
+  if (helpBtn2 && fixWrap && fixRow){
+    helpBtn2.addEventListener('click', function(){
+      helpBtn2.hidden = true;
+      fixWrap.hidden = false;
+      buildCells(fixRow, HELLO, {
+        interactive: true,
+        clearable: true,
+        start: WRONG,
+        onDone: function(){ fixDone.classList.add('is-on'); }
+      });
+      fixWrap.scrollIntoView({behavior: reduce ? 'auto' : 'smooth', block: 'center'});
+    });
+  }
 })();
 </script>
 </body>
