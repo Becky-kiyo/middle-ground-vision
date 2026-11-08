@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中间地带 · 视力体验</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Cpath d='M4 16c5-7 19-7 24 0-5 7-19 7-24 0z' fill='none' stroke='%23fff' stroke-width='1.6'/%3E%3Ccircle cx='16' cy='16' r='3.6' fill='%23F2B01E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;600&amp;family=Noto+Sans+SC:wght@300;400;500&amp;display=swap">
+<style>
+@property --tunnelPx { syntax:'<length>'; inherits:true; initial-value:0px; }
+
+:root{
+  --void:#000000;
+  --ink:#0E1012;
+  --paper:#FFFFFF;
+  --mist:#F3F5F6;
+  --rule:#D9DEE1;
+  --muted:#71797F;
+  --tactile:#F2B01E;
+
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",serif;
+  --sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+
+  --pos:0%;
+
+  --zoom:1;
+  --blur:2.4px;
+  --bright:0.97;
+  --contrast:1;
+  --sat:0.9;
+  --haze:0.3;
+  --tunnelPx:0px;
+  --tunnelOp:0;
+  --glare:0;
+  --mosaic:0;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--void);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img{display:block}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+/* ============ 全局颗粒 ============ */
+.grain{
+  position:fixed;inset:0;z-index:60;pointer-events:none;
+  opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:screen;
+}
+
+/* ============ 第一屏：睁眼 ============ */
+.act-1{
+  position:fixed;inset:0;z-index:20;
+  background:var(--void);
+  display:grid;place-items:center;
+  overflow:hidden;
+  transition:opacity .9s ease, visibility .9s;
+}
+.act-1.is-out{opacity:0;visibility:hidden}
+
+.aperture{
+  position:relative;
+  width:min(88vw,960px);
+  height:min(58vh,470px);
+  min-height:300px;
+  display:grid;place-items:center;
+}
+
+/* 睁开前的那条白线 */
+.slit{
+  position:absolute;left:50%;top:50%;
+  width:min(62%,560px);height:2px;
+  margin-left:0;
+  transform:translate(-50%,-50%) scaleX(0);
+  background:#fff;
+  box-shadow:0 0 18px 3px rgba(255,255,255,.55), 0 0 60px 8px rgba(200,220,255,.18);
+  opacity:0;
+  animation:slitIn 1s cubic-bezier(.3,.7,.3,1) 1.45s forwards,
+            slitOut .9s ease 3.05s forwards;
+  z-index:3;
+}
+@keyframes slitIn{
+  0%{transform:translate(-50%,-50%) scaleX(0);opacity:0}
+  55%{opacity:1}
+  100%{transform:translate(-50%,-50%) scaleX(1);opacity:1}
+}
+@keyframes slitOut{
+  to{opacity:0;transform:translate(-50%,-50%) scaleX(1.06) scaleY(.4)}
+}
+
+/* 眼睛（可视为一片被照亮的视野） */
+.eye{
+  position:relative;width:100%;height:100%;
+  display:grid;place-items:center;
+  padding:clamp(18px,3.4vw,44px);
+  clip-path:ellipse(50% 0% at 50% 50%);
+  animation:eyelid 1.6s cubic-bezier(.19,.86,.27,1) 2.5s forwards;
+  background:
+    radial-gradient(ellipse 62% 58% at 50% 42%, rgba(38,52,72,.55) 0%, rgba(12,17,25,.92) 56%, #04060A 100%),
+    radial-gradient(circle at 42% 34%, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 42%);
+  box-shadow:
+    inset 0 0 90px 30px rgba(0,0,0,.85),
+    inset 0 0 0 1px rgba(255,255,255,.10),
+    0 0 70px 12px rgba(120,160,220,.10);
+}
+.eye::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-radial-gradient(circle at 50% 46%, rgba(255,255,255,.035) 0 1px, transparent 1px 9px);
+  opacity:.7;
+}
+@keyframes eyelid{
+  from{clip-path:ellipse(50% 0% at 50% 50%)}
+  to{clip-path:ellipse(50% 50% at 50% 50%)}
+}
+
+.eye-inner{
+  position:relative;z-index:2;
+  max-width:min(660px,86%);
+  display:flex;flex-direction:column;align-items:center;
+  gap:clamp(24px,3.6vw,40px);
+  text-align:center;
+  opacity:0;transform:translateY(14px);
+  animation:rise 1.1s cubic-bezier(.22,1,.36,1) 3.5s forwards;
+}
+@keyframes rise{to{opacity:1;transform:translateY(0)}}
+
+.lede{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(17px,2.05vw,25px);
+  line-height:2;
+  letter-spacing:.02em;
+  color:#EDF1F5;
+  text-wrap:pretty;
+}
+.lede em{
+  font-style:normal;
+  color:#fff;
+  border-bottom:1px solid var(--tactile);
+  padding-bottom:2px;
+  font-variant-numeric:tabular-nums;
+}
+
+.enter{
+  position:relative;
+  padding:15px clamp(26px,3.4vw,40px);
+  min-height:48px;
+  border-radius:999px;
+  background:#fff;color:#000;
+  font-family:var(--sans);font-weight:500;
+  font-size:clamp(14px,1.5vw,16px);
+  letter-spacing:.1em;
+  transition:transform .18s cubic-bezier(.3,.7,.4,1), box-shadow .3s ease;
+  box-shadow:0 0 0 0 rgba(255,255,255,.28);
+}
+.enter:hover{box-shadow:0 0 0 6px rgba(255,255,255,.09)}
+.enter:active,.enter.is-press{transform:scale(.96)}
+.enter.is-spring{animation:spring .62s cubic-bezier(.34,1.4,.64,1) both}
+@keyframes spring{
+  0%{transform:scale(.96)}
+  42%{transform:scale(1.055)}
+  72%{transform:scale(.99)}
+  100%{transform:scale(1)}
+}
+.enter:focus-visible{outline:2px solid var(--tactile);outline-offset:5px}
+
+/* 进入第二屏时的“明适应”白闪 */
+.flash{
+  position:fixed;inset:0;z-index:40;
+  background:#fff;opacity:0;pointer-events:none;
+}
+.flash.is-go{animation:flash .95s ease-out both}
+@keyframes flash{0%{opacity:1}52%{opacity:.62}100%{opacity:0}}
+
+/* ============ 第二屏：视力模拟 ============ */
+.act-2{
+  position:relative;z-index:10;
+  min-height:100dvh;
+  background:var(--paper);
+  color:var(--ink);
+  padding:clamp(28px,5vw,72px) clamp(20px,5vw,64px) clamp(32px,5vw,56px);
+  display:none;
+}
+.act-2.is-in{display:block}
+
+.head{
+  max-width:1340px;margin:0 auto;
+  border-top:1px solid var(--rule);
+  padding-top:clamp(18px,2.6vw,28px);
+}
+.kicker{
+  font-size:12px;letter-spacing:.22em;color:var(--muted);
+  margin-bottom:clamp(10px,1.6vw,16px);
+}
+h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(30px,4.6vw,56px);
+  line-height:1.16;letter-spacing:.02em;
+  text-wrap:balance;
+}
+.sub{
+  margin-top:clamp(10px,1.6vw,16px);
+  font-size:clamp(13px,1.35vw,15px);
+  line-height:1.9;color:var(--muted);
+  max-width:36ch;
+}
+
+.work{
+  max-width:1340px;margin:clamp(28px,4.4vw,56px) auto 0;
+  display:grid;
+  grid-template-columns:150px minmax(0,1fr);
+  gap:clamp(20px,4vw,56px);
+  align-items:start;
+}
+
+/* --- 体温计式滑轨 --- */
+.meter{
+  position:relative;
+  height:min(62vh,540px);
+  padding-top:6px;
+}
+.track{
+  position:absolute;left:30px;top:6px;bottom:92px;width:9px;
+  border-radius:999px;
+  background:linear-gradient(180deg,#EDEFF1,#E1E5E8);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.05);
+}
+.mercury{
+  position:absolute;left:0;right:0;top:0;
+  height:var(--pos);
+  border-radius:999px;
+  background:linear-gradient(180deg,#2A3138,#0E1012);
+  transition:height .12s linear;
+}
+.ticks{position:absolute;inset:0;pointer-events:none}
+.tick{
+  position:absolute;left:-6px;top:var(--p);width:21px;height:1px;
+  background:rgba(14,16,18,.26);
+  transform:translateY(-50%);
+}
+.tick::after{
+  content:attr(data-label);
+  position:absolute;left:30px;top:50%;
+  transform:translateY(-50%);
+  font-size:12px;letter-spacing:.02em;color:var(--muted);
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+}
+.tick.is-on{background:var(--tactile)}
+.tick.is-on::after{color:var(--ink)}
+
+.handle{
+  position:absolute;left:50%;top:var(--pos);
+  width:36px;height:23px;margin-left:-18px;margin-top:-11.5px;
+  border-radius:50%;
+  background:linear-gradient(160deg,#20262C,#0B0D0F);
+  box-shadow:0 3px 8px rgba(0,0,0,.28), 0 0 0 1px rgba(255,255,255,.5);
+  pointer-events:none;
+  display:grid;place-items:center;
+  transition:box-shadow .2s ease;
+}
+.handle::after{
+  content:"";width:15px;height:1.5px;border-radius:2px;background:rgba(255,255,255,.9);
+}
+.meter:hover .handle{box-shadow:0 3px 10px rgba(0,0,0,.32), 0 0 0 1px rgba(255,255,255,.8), 0 0 0 4px rgba(242,176,30,.16)}
+.meter:has(input:focus-visible) .track{box-shadow:inset 0 0 0 1px rgba(0,0,0,.06), 0 0 0 3px rgba(242,176,30,.55)}
+
+/* 原生滑轨：透明覆盖在轨道上，由脚本按轨道尺寸摆放，保证各浏览器行为一致 */
+.range{
+  position:absolute;left:0;top:0;width:10px;height:44px;margin:0;
+  -webkit-appearance:none;appearance:none;
+  background:transparent;border:0;padding:0;
+  opacity:0;cursor:grab;z-index:4;
+  touch-action:none;
+}
+.range:active{cursor:grabbing}
+.range::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:transparent}
+.range::-moz-range-thumb{width:26px;height:26px;border:0;border-radius:50%;background:transparent}
+.range:focus{outline:none}
+
+.readout{position:absolute;left:6px;bottom:0;width:100%}
+.value{
+  display:block;
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(26px,3vw,34px);
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.01em;
+}
+.value.is-nil{font-size:clamp(22px,2.4vw,27px)}
+.level{
+  display:block;margin-top:10px;
+  font-size:13px;letter-spacing:.08em;color:var(--muted);
+}
+.level b{font-weight:500;color:var(--ink);letter-spacing:.04em}
+
+/* --- 画面 --- */
+.stage{min-width:0}
+.frame{
+  position:relative;
+  aspect-ratio:16/10;
+  max-height:min(66vh,600px);
+  background:#0B0C0D;
+  overflow:hidden;
+  isolation:isolate;
+}
+.frame img,.frame canvas{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:50% 50%;
+}
+#street{
+  transform:scale(var(--zoom));
+  transform-origin:50% 46%;
+  filter:blur(var(--blur)) brightness(var(--bright)) contrast(var(--contrast)) saturate(var(--sat));
+  transition:filter .28s ease, transform .32s cubic-bezier(.22,1,.36,1);
+}
+#mosaic{
+  image-rendering:pixelated;
+  filter:blur(1.6px) contrast(1.05);
+  opacity:var(--mosaic);
+  transition:opacity .28s ease;
+  transform:scale(var(--zoom));
+  transform-origin:50% 46%;
+}
+/* 水汽：边缘更浓，中心略清 */
+.veil{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 78% 78% at 50% 50%, rgba(232,240,248,.10) 0%, rgba(226,236,246,.42) 62%, rgba(214,226,238,.62) 100%);
+  opacity:var(--haze);
+  transition:opacity .3s ease;
+  pointer-events:none;
+}
+/* 管状视野 */
+.tunnel{
+  position:absolute;inset:0;background:#000;
+  -webkit-mask-image:radial-gradient(circle at 50% 50%, transparent calc(var(--tunnelPx) - 6px), #000 var(--tunnelPx));
+  mask-image:radial-gradient(circle at 50% 50%, transparent calc(var(--tunnelPx) - 6px), #000 var(--tunnelPx));
+  opacity:var(--tunnelOp);
+  transition:opacity .3s ease;
+  pointer-events:none;
+}
+/* 残余光感 */
+.glare{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 47%, rgba(255,246,230,.20) 0%, rgba(255,240,214,.08) 26%, rgba(0,0,0,0) 52%);
+  opacity:var(--glare);
+  transition:opacity .3s ease;
+  mix-blend-mode:screen;
+}
+.stage-note{
+  display:flex;justify-content:space-between;gap:16px;
+  margin-top:12px;
+  font-size:12px;letter-spacing:.06em;color:var(--muted);
+}
+.stage-note span:last-child{font-variant-numeric:tabular-nums}
+
+/* --- 收尾 --- */
+.closing{
+  max-width:1340px;margin:clamp(54px,8vw,96px) auto 0;
+  border-top:1px solid var(--rule);
+  padding-top:clamp(24px,3.4vw,40px);
+}
+.closing p{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(17px,2.1vw,25px);
+  line-height:2;letter-spacing:.01em;
+  max-width:34ch;
+  text-wrap:pretty;
+}
+.next{
+  margin-top:clamp(22px,3vw,34px);
+  font-size:12px;letter-spacing:.12em;color:var(--muted);
+}
+
+/* ============ 窄屏 ============ */
+@media (max-width:640px){
+  .aperture{width:94vw;height:min(66vh,420px);min-height:340px}
+  .eye{padding:22px}
+  .lede{font-size:clamp(15px,4.1vw,18px);line-height:1.95}
+  .work{grid-template-columns:1fr;gap:26px}
+  .frame{aspect-ratio:4/3;max-height:none}
+
+  .meter{height:auto;padding-top:0;display:flex;flex-direction:column-reverse}
+  .readout{position:static;width:auto;margin:0 0 26px;padding-left:0;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .value{font-size:26px}
+  .level{margin-top:0}
+  .track{
+    position:relative;left:auto;top:auto;bottom:auto;width:auto;height:9px;
+    margin:0 26px 34px 12px;
+  }
+  .mercury{height:auto;width:var(--pos);border-radius:999px;
+    background:linear-gradient(90deg,#2A3138,#0E1012);transition:width .12s linear}
+  .tick{left:var(--p);top:-6px;width:1px;height:21px;transform:translateX(-50%)}
+  .tick::after{
+    left:50%;top:26px;transform:translateX(-50%);
+    font-size:11px;
+  }
+  .tick:nth-child(5)::after{left:auto;right:0;transform:none}
+  .handle{left:var(--pos);top:50%;margin-left:-18px;margin-top:-11.5px}
+  .range{position:absolute;left:0;right:0;top:-14px;bottom:-14px;width:auto;height:auto;margin:0 26px 0 12px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .slit{animation-duration:.01s;animation-delay:0s}
+  .eye{animation-duration:.01s;animation-delay:0s}
+  .eye-inner{animation-duration:.01s;animation-delay:0s}
+  .enter.is-spring{animation:none}
+  #street,#mosaic,.tunnel,.veil,.glare{transition:none}
+}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ 第一屏 ============ -->
+<section class="act-1" id="act1" aria-label="开场">
+  <div class="aperture">
+    <div class="slit" aria-hidden="true"></div>
+    <div class="eye" id="eye">
+      <div class="eye-inner">
+        <p class="lede">黑暗于我们而言，只有一瞬，<br>但对于中国 <em>1731万</em> 视力残疾人来说，<br>我们刚刚的一瞬，是他们的日常。</p>
+        <button class="enter" id="enterBtn" type="button">点击，进入他们的视野</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 第二屏 ============ -->
+<section class="act-2" id="act2" aria-label="视力模拟">
+  <header class="head">
+    <p class="kicker">第二章　视力模拟</p>
+    <h1>感受他们的视野</h1>
+    <p class="sub">把椭圆滑块从 0.3 拖到无光感。同一张街景，会在你手上一点点退到看不清。</p>
+  </header>
+
+  <div class="work">
+    <div class="meter" id="meter">
+      <div class="track">
+        <div class="mercury"></div>
+        <div class="ticks">
+          <div class="tick is-on" style="--p:0%" data-label="0.3"></div>
+          <div class="tick" style="--p:25%" data-label="0.1"></div>
+          <div class="tick" style="--p:50%" data-label="0.05"></div>
+          <div class="tick" style="--p:75%" data-label="0.02"></div>
+          <div class="tick" style="--p:100%" data-label="无光感"></div>
+        </div>
+      </div>
+      <div class="handle" id="handle" aria-hidden="true"></div>
+      <input class="range" id="range" type="range" min="0" max="100" step="0.5" value="0"
+             aria-label="视力等级滑轨，从 0.3 到无光感">
+      <div class="readout">
+        <span class="value" id="value">0.30</span>
+        <span class="level">当前等级　<b id="level">四级低视力</b></span>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="frame" id="frame">
+        <img id="street" src="street.jpg" alt="城市街景：行道树、临街店铺与过街的行人" width="1760" height="989">
+        <canvas id="mosaic" aria-hidden="true"></canvas>
+        <div class="veil" aria-hidden="true"></div>
+        <div class="tunnel" aria-hidden="true"></div>
+        <div class="glare" aria-hidden="true"></div>
+      </div>
+      <div class="stage-note">
+        <span>同一张街景</span>
+        <span id="noteRight">视野接近正常</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="closing">
+    <p>1731万人里，大多数不是“全盲”，他们活在“还能看见一点，但不够用的”中间地带。</p>
+    <p class="next">下一章　走进他们的日常：盲道 · 盲文 · 导盲犬</p>
+  </div>
+</section>
+
+<div class="flash" id="flash" aria-hidden="true"></div>
+
+<script>
+(function(){
+  'use strict';
+
+  var act1 = document.getElementById('act1');
+  var act2 = document.getElementById('act2');
+  var enterBtn = document.getElementById('enterBtn');
+  var flash = document.getElementById('flash');
+  var meter = document.getElementById('meter');
+  var frame = document.getElementById('frame');
+  var range = document.getElementById('range');
+  var street = document.getElementById('street');
+  var mosaic = document.getElementById('mosaic');
+  var valueEl = document.getElementById('value');
+  var levelEl = document.getElementById('level');
+  var noteRight = document.getElementById('noteRight');
+  var track = document.querySelector('.track');
+  var ticks = [].slice.call(document.querySelectorAll('.tick'));
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var entered = false;
+
+  /* 四档视觉参数：模糊、明暗、对比、饱和、水汽、缩放、色块、管状视野 */
+  var BANDS = [
+    {
+      level:'四级低视力', blur:'1.8px', bright:0.97, contrast:1.00, sat:0.90,
+      haze:0.30, zoom:1.00, mosaic:0, tunnelOp:0, glare:0, tunnel:0.42,
+      note:'隔着一层水汽，能认出轮廓，看不清细节'
+    },
+    {
+      level:'三级低视力', blur:'2.2px', bright:0.92, contrast:1.04, sat:1.40,
+      haze:0.12, zoom:1.32, mosaic:1, tunnelOp:0, glare:0, tunnel:0.42,
+      note:'楼影和人影塌成了色块'
+    },
+    {
+      level:'二级盲', blur:'5px', bright:0.86, contrast:1.00, sat:0.45,
+      haze:0, zoom:1.56, mosaic:0, tunnelOp:1, glare:0, tunnel:0.30,
+      note:'只剩半径不到 10 度的管状视野'
+    },
+    {
+      level:'一级盲', blur:'9px', bright:0.10, contrast:0.85, sat:0.15,
+      haze:0, zoom:1.72, mosaic:0, tunnelOp:1, glare:1, tunnel:0.11,
+      note:'仅存微弱光感'
+    }
+  ];
+
+  var TICK_V = [0.3, 0.1, 0.05, 0.02, 0];
+
+  function bandIndex(p){
+    return p < 25 ? 0 : p < 50 ? 1 : p < 75 ? 2 : 3;
+  }
+
+  /* 刻度之间按对数值插值，得到连续视力值 */
+  function visionAt(p){
+    if (p >= 99.5) return null;
+    if (p >= 75) return 0.02 * (1 - (p - 75) / 25);
+    var i = Math.floor(p / 25);
+    var t = p / 25 - i;
+    var a = TICK_V[i], b = TICK_V[i + 1];
+    return Math.pow(10, Math.log10(a) + (Math.log10(b) - Math.log10(a)) * t);
+  }
+
+  function update(p){
+    p = Math.max(0, Math.min(100, p));
+    var band = BANDS[bandIndex(p)];
+    meter.style.setProperty('--pos', p + '%');
+
+    frame.style.setProperty('--zoom', band.zoom);
+    frame.style.setProperty('--blur', band.blur);
+    frame.style.setProperty('--bright', band.bright);
+    frame.style.setProperty('--contrast', band.contrast);
+    frame.style.setProperty('--sat', band.sat);
+    frame.style.setProperty('--haze', band.haze);
+    frame.style.setProperty('--mosaic', band.mosaic);
+    frame.style.setProperty('--tunnelOp', band.tunnelOp);
+    frame.style.setProperty('--glare', band.glare);
+
+    var minDim = Math.min(frame.clientWidth, frame.clientHeight) || 1;
+    frame.style.setProperty('--tunnelPx', (band.tunnel * minDim) + 'px');
+
+    var v = visionAt(p);
+    valueEl.classList.remove('is-nil');
+    if (v === null){
+      valueEl.textContent = '无光感';
+      valueEl.classList.add('is-nil');
+    } else if (p >= 75) {
+      valueEl.textContent = '＜0.02';
+    } else {
+      valueEl.textContent = v.toFixed(2);
+    }
+
+    levelEl.textContent = band.level;
+    noteRight.textContent = band.note;
+
+    var on = p >= 99.5 ? 4 : bandIndex(p);
+    ticks.forEach(function(t, i){ t.classList.toggle('is-on', i === on); });
+
+    range.setAttribute('aria-valuetext', band.level + '，视力 ' + valueEl.textContent);
+  }
+
+  /* 把原生滑轨摆到轨道上：桌面竖向（旋转 -90°），窄屏横向 */
+  function layoutRange(){
+    if (!act2.classList.contains('is-in')) return;
+    var tr = track.getBoundingClientRect();
+    var mr = meter.getBoundingClientRect();
+    var narrow = window.innerWidth <= 640;
+    var x = tr.left - mr.left + tr.width / 2;
+    var y = tr.top - mr.top + tr.height / 2;
+
+    if (narrow){
+      range.style.width = tr.width + 'px';
+      range.style.left = (x - tr.width / 2) + 'px';
+      range.style.transform = 'none';
+      range.style.direction = 'ltr';
+    } else {
+      range.style.width = tr.height + 'px';
+      range.style.left = (x - tr.height / 2) + 'px';
+      range.style.transform = 'rotate(-90deg)';
+      range.style.direction = 'rtl';
+    }
+    range.style.height = '44px';
+    range.style.top = (y - 22) + 'px';
+    range.style.transformOrigin = '50% 50%';
+  }
+
+  /* 低分辨率重绘，得到真实的色块观感 */
+  function drawMosaic(){
+    if (!street.complete || !street.naturalWidth) return;
+    var w = 46;
+    var h = Math.max(8, Math.round(w * street.naturalHeight / street.naturalWidth));
+    mosaic.width = w;
+    mosaic.height = h;
+    var ctx = mosaic.getContext('2d');
+    if (!ctx) return;
+    ctx.drawImage(street, 0, 0, w, h);
+  }
+
+  function enter(){
+    if (entered) return;
+    entered = true;
+    flash.classList.add('is-go');
+    act1.classList.add('is-out');
+    var wait = reduce ? 0 : 850;
+    setTimeout(function(){
+      act2.classList.add('is-in');
+      act1.style.display = 'none';
+      window.scrollTo(0, 0);
+      requestAnimationFrame(function(){
+        layoutRange();
+        update(parseFloat(range.value));
+        drawMosaic();
+      });
+      act2.querySelector('h1').setAttribute('tabindex','-1');
+      act2.querySelector('h1').focus({preventScroll:true});
+    }, wait);
+  }
+
+  /* 按钮按压回弹 */
+  enterBtn.addEventListener('pointerdown', function(){
+    enterBtn.classList.add('is-press');
+    enterBtn.classList.remove('is-spring');
+  });
+  function release(){
+    if (!enterBtn.classList.contains('is-press')) return;
+    enterBtn.classList.remove('is-press');
+    if (!reduce){
+      enterBtn.classList.add('is-spring');
+      setTimeout(function(){ enterBtn.classList.remove('is-spring'); }, 640);
+    }
+  }
+  enterBtn.addEventListener('pointerup', release);
+  enterBtn.addEventListener('pointercancel', release);
+  enterBtn.addEventListener('pointerleave', release);
+  enterBtn.addEventListener('click', enter);
+
+  range.addEventListener('input', function(){
+    update(parseFloat(range.value));
+  });
+
+  var rt;
+  window.addEventListener('resize', function(){
+    clearTimeout(rt);
+    rt = setTimeout(function(){
+      layoutRange();
+      update(parseFloat(range.value));
+    }, 120);
+  });
+  window.addEventListener('orientationchange', function(){
+    setTimeout(function(){ layoutRange(); update(parseFloat(range.value)); }, 260);
+  });
+
+  street.addEventListener('load', drawMosaic);
+  if (street.complete) drawMosaic();
+
+  update(0);
+})();
+</script>
+</body>
+</html>
